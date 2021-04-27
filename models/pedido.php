@@ -1,0 +1,75 @@
+<?php
+
+class pedido{
+    private $id;
+    private $folio;
+    private $fecha;
+    private $proveedor_id;
+    private $descripcion;
+    private $db;
+    
+    public function __construct() {
+            $this->db = Database::connection();
+    }
+    
+    
+    function getId() {
+        return $this->id;
+    }
+
+    function getFolio() {
+        return $this->folio;
+    }
+
+    function getFecha() {
+        return $this->fecha;
+    }
+
+    function getProveedor_id() {
+        return $this->proveedor_id;
+    }
+
+    function getDescripcion() {
+        return $this->descripcion;
+    }
+
+    function setId($id): void {
+        $this->id = $id;
+    }
+
+    function setFolio($folio): void {
+        $this->folio = $folio;
+    }
+
+    function setFecha($fecha): void {
+        $this->fecha = $fecha;
+    }
+
+    function setProveedor_id($proveedor_id): void {
+        $this->proveedor_id = $proveedor_id;
+    }
+
+    function setDescripcion($descripcion): void {
+        $this->descripcion = $descripcion;
+    }
+    
+    function makeOrder(){
+        $result = false;
+        $sql = "INSERT INTO pedido (id, folio, fecha, proveedor_id) VALUES (NULL, 'GAT123', NOW(), {$this->getProveedor_id()}";
+        $query = $this->db->query($sql) or die ('Error en el query database' .mysqli_error($this->db));
+        
+        $last_id = $this->db->insert_id;
+        
+        if($query){
+            $result = $last_id;
+        }
+        
+        return $result;
+        
+    }
+    
+
+    
+}
+    
+    

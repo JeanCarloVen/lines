@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lines</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="assets/css/style.css" />     
+        <link rel="stylesheet" href="assets/js/dropzone-5.7.0/dist/dropzone.css" />
+        <script type="text/javascript" src="assets/js/dropzone-5.7.0/dist/dropzone.js"></script>
+    </head>
+    <body>
+        <div id="container">
+            <header id="header">
+                <div class="header">
+                    <div id="logo">
+                        <a href="index.php"> <img class="logo" src="assets/img/logo_lines.png" alt="Lines Logo" > </a>
+                    </div>
+                    <div class="header-right">
+                        <div>
+                            <h5>Jean Carlo</h5>
+                            <h5>Saldo: $100.00</h5>
+                            <div class="cerrar-sesion">
+                                <a  href="#">Cerrar Sesión</a>
+                            </div>
+                        </div>    
+                    </div>
+                    <div class="header-center">
+                        <div class="button">
+                            <a class="button-pink" href="#">Home</a>
+                            <a class="button-pink" href="#">Servicios</a> 
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div id="content">
+                <!-- Barra lateral -->
+                <aside id="lateral">
+                    <div class="position_lateral">
+                        <div class="block_aside">
+                            <div class="fila">
+                                <div class="column">
+                                        <h2>Importe</h2>
+                                        <h3>Comisión</h3>
+                                        <h3>Total</h3>
+                                </div>
+                                <div class="column">
+                                        <h2>$100.00</h2>
+                                        <h3>$12.00</h3>
+                                        <h3>$112.00</h3>
+                                </div>
+                                </div>
+                        </div>
+                        
+                        <div class="header button">
+                                <a class="button-pink" href="#" > Comprar  </a>
+                        </div>
+                    </div>
+                </aside>
+                
+                 <!-- Contenido Central -->
+                <div id="central">
+                    <section class="bloque_principal">
+                        <div class="upload">
+                            <div> 
+                                <form action="file_upload.php" class="dropzone">
+                                    <div class="dz-message needsclick">
+                                        <strong>Arrastra archivos a cualquier lugar para subirlos.</strong><br /><br />
+                                        <span class="note needsclick">
+                                        <span class="glyphicon glyphicon-open" aria-hidden="true" style="font-size:60px;"></span>
+                                        </span>
+                                        
+                                    </div>
+                                </form>
+                                <div>
+                                    <div class="opciones">
+                                        <div class="header button">
+                                            <a class="button-pink" href="#" > Insertar  </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                        <div>
+                            <div class="opciones_locacion">
+                                <h1>Selecciona:</h1>
+                                <select class="location_select" name="select">
+                                    <option value="value1">Value 1</option>
+                                    <option value="value2" selected>Value 2</option>
+                                    <option value="value3">Value 3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="mapa">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30111.917691708742!2d-99.27052158400785!3d19.36959816287425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d200c41f6ecbc5%3A0x617650eef53e5be4!2sSanta%20Fe%2C%20Zedec%20Sta%20F%C3%A9%2C%20Ciudad%20de%20M%C3%A9xico%2C%20CDMX!5e0!3m2!1ses-419!2smx!4v1611275882016!5m2!1ses-419!2smx" width="350" height="250" frameborder="0" style="border-radius: 20px;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section class="bloque_secundario">
+                        <div class="tabla">
+                            <table id="tabla_principal">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Archivo</th>
+                                    <th>Tipo</th>
+                                    <th>Páginas</th>
+                                    <th>Color - B/N</th>
+                                    <th>Tamaño Hoja</th>
+                                    <th>Orientación</th>
+                                    <th>De X Hasta Y</th>
+                                    <th>Fecha y Hora</th>
+                                    <th>Importe</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                                <tr>
+                                    <td>PXD-03413</td>
+                                    <td>ARCHIVO</td>
+                                    <td>PDF</td>
+                                    <td>253</td>
+                                    <td>COLOR</td>
+                                    <td>CARTA</td>
+                                    <td>PORTRAIT</td>
+                                    <td>143 - 396</td>
+                                    <td>25/01/21</td>
+                                    <td>$130.00</td>                                   
+                                    <td>
+                                        <label class="container"> 
+                                        <input type="checkbox" checked="checked">
+                                        <span class="checkmark"></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>PXD-03413</td>
+                                    <td>ARCHIVO</td>
+                                    <td>PDF</td>
+                                    <td>253</td>
+                                    <td>COLOR</td>
+                                    <td>CARTA</td>
+                                    <td>PORTRAIT</td>
+                                    <td>143 - 396</td>
+                                    <td>25/01/21</td>
+                                    <td>$130.00</td>
+                                    <td>
+                                        <label class="container"> 
+                                        <input type="checkbox" checked="checked">
+                                        <span class="checkmark"></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>PXD-03413</td>
+                                    <td>ARCHIVO</td>
+                                    <td>PDF</td>
+                                    <td>253</td>
+                                    <td>COLOR</td>
+                                    <td>CARTA</td>
+                                    <td>PORTRAIT</td>
+                                    <td>143 - 396</td>
+                                    <td>25/01/21</td>
+                                    <td>$130.00</td>
+                                    <td>
+                                        <label class="container"> 
+                                        <input type="checkbox" checked="checked">
+                                        <span class="checkmark"></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="delete_file">
+                            <div class="header button">
+                                <a class="button-pink" href="#">Eliminar</a>
+                            </div>
+                        </div>
+
+                        <div class="footer">
+                            <div class="dropdown">
+                                <h4> 
+                                    <span> Consulta Lista de Precios </span>
+                                </h4>
+                                <div class="dropdown-content">
+                                    <table>
+                                        <tr>
+                                            <th>Descripción</th>
+                                            <th>Precio Unitario</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Blanco/Negro</td>
+                                            <td>$1.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Color</td>
+                                            <td>$0.50</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Hoja Oficio</td>
+                                            <td>$2.00</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                 
+            </div>
+        </div>
+    </body>
+</html>
+
+
