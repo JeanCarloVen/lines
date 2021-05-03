@@ -8,6 +8,7 @@ class servicio{
     private $descripcion;
     private $precio_unitario;
     private $comision_menudeo;
+    private $categoria;
     private $db;
     
     public function __construct() {
@@ -17,7 +18,16 @@ class servicio{
     function getId() {
         return $this->id;
     }
+    
+    function getCategoria() {
+        return $this->categoria;
+    }
 
+    function setCategoria($categoria): void {
+        $this->categoria = $categoria;
+    }
+
+    
     function getProveedor_id() {
         return $this->proveedor_id;
     }
@@ -80,10 +90,39 @@ class servicio{
         return $result;
     }
     
+    function getSizePaperServices(){
+        $result = false;
+        //Tamanio de Hoja
+        $sql = "SELECT servicio_default.id, servicio_default.servicio_def FROM servicio_default INNER JOIN serviciodef_proveedor ON servicio_default.id = serviciodef_proveedor.servicio_default_id WHERE proveedor_id={$this->getProveedor_id()} AND categoria='SIZE_PAPER' AND status='ACT'";
+        $servicios = $this->db->query($sql) or die ('Error en el query database' .mysqli_error($this->db));
+        if($servicios->num_rows > 0){
+            $result = $servicios;
+        }
+        return $result;
+    }
+    
+    function getPrintServices(){
+        $result = false;
+        //Tamanio de Hoja
+        $sql = "SELECT servicio_default.id, servicio_default.servicio_def FROM servicio_default INNER JOIN serviciodef_proveedor ON servicio_default.id = serviciodef_proveedor.servicio_default_id WHERE proveedor_id={$this->getProveedor_id()} AND categoria='PRINT' AND status='ACT'";
+        $servicios = $this->db->query($sql) or die ('Error en el query database' .mysqli_error($this->db));
+        if($servicios->num_rows > 0){
+            $result = $servicios;
+        }
+        return $result;
+    }
+    
+    
+    
     function getAllServices(){
+        $result = false;
         $sql = "SELECT * FROM servicio WHERE proveedor_id={$this->getProveedor_id()}";
         $servicios = $this->db->query($sql) or die ('Error en el query database' .mysqli_error($this->db));
-        return $servicios;
+        
+        if($servicios->num_rows > 0){
+            $result = $servicios;
+        }
+        return $result;
     }
 
 

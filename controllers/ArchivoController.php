@@ -9,25 +9,20 @@ class ArchivoController{
         if (isset($_FILES['my_file']) && isset($_POST)) {
             $cliente_id = 1;
             $pedido_id = null;
-            //Set Proveedor
-            $proveedor_id = $_POST['proveedor_id']; //Debo obtener un INT del proveedor
-
+            
             //Instancia el pedido
             $pedido = new pedido;
-            
+          
             //Make Folio
-            $pedido->setFolio(); // Falta agregar un folio al pedido *Investigar construccion de folios
-            
-            //Recoge datos del pedido
+            //$pedido->setFolio(); // Falta agregar un folio al pedido *Investigar construccion de folios
+           
             $pedido->setProveedor_id($proveedor_id);
-            
             //Inserta el registro en la BDD
             $pedido_id = $pedido->makeOrder(); //Devuelve false o el id del pedido
             
             if(!$pedido_id && $pedido_id != null){
                 //Validar el servicio
-                //Consulta de si existe la variable de servicio solicitada
-                
+
                 //El servicio indica el precio
                 //Precio Unitario 1 = B/N o Color
                 //Precio Unitario 2= Carta u Oficio
@@ -83,12 +78,9 @@ class ArchivoController{
                 //No se realizó el pedido
             }
         }else{
-            header('Location:'.base_url);    
+            header('Location:'.base_url);
         }
-        //1) Validación del archivo: PDF, DOC, JPG, PNG, SVG
-        //2) El usuario deberá de DAR INFORMACIÓN
-        //3) Si el archivo es de texto, deberá indicar numero paginas a imprimir COLOR o B/N, Orientación
-
+        header('Location:'.base_url);    
     }
     
     public function files_table(){

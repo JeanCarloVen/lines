@@ -11,6 +11,7 @@ class UsuarioController{
         //Carga de proveedores Locales
         $supplier = new proveedor();
         $suppliers = $supplier->getLocalSuppliers();
+        $_SESSION['register'] = 'new_register';
         require_once 'views/archivo/subir.php';
     }
     

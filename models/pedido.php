@@ -12,7 +12,6 @@ class pedido{
             $this->db = Database::connection();
     }
     
-    
     function getId() {
         return $this->id;
     }
@@ -55,17 +54,14 @@ class pedido{
     
     function makeOrder(){
         $result = false;
-        $sql = "INSERT INTO pedido (id, folio, fecha, proveedor_id) VALUES (NULL, 'GAT123', NOW(), {$this->getProveedor_id()}";
-        $query = $this->db->query($sql) or die ('Error en el query database' .mysqli_error($this->db));
-        
-        $last_id = $this->db->insert_id;
-        
+        $sql = "INSERT INTO pedido (id, folio, fecha, proveedor_id) VALUES (NULL, 'GAT123', NOW(), {$this->getProveedor_id()});";
+        $query = $this->db->query($sql) or die ('Error en el query database: ' .mysqli_error($this->db));
+        //Devuelve el último registro
         if($query){
+            $last_id = $this->db->insert_id;
             $result = $last_id;
         }
-        
         return $result;
-        
     }
     
 

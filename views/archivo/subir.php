@@ -1,64 +1,83 @@
 <div id="central">
     <section class="bloque_principal">
         <div class="upload_file">
-        <form action="<?=base_url?>archivo/upload_file" method="post" enctype="multipart/form-data">
-            <!--Seleccionar Proveedor-->
-            <ul>
-                 <li>
-                    <!--Carga y seleccion de proveedores-->
-<!--                        https://es.stackoverflow.com/questions/299383/select-option-con-php-->
-                    <label for="proveedor">Selecciona Proveedor:</label>
-                    <select name="proveedor_id">
-                        <option value="" selected disabled>Selecciona un proveedor...</option>
-                        <?php while($sup = $suppliers->fetch_object()): ?>
-                            <option value="<?= $sup->id?>">
-                                <?=$sup->nombre; ?>
-                            </option>
-                        <?php endwhile; ?>
-                    </select> 
-                    <input type="submit" value="Establecer Proveedor">
-                </li> 
-                <!--Seleccionar Servicios-->
-                <li>
-                    <!-- Subir Archivo --> 
-                    <input type="file" name="my_file[]" multiple>
-                </li>
-                <?php  while($serv = $serv->fetch_object()): ?>
-                <li>
-                    <!-- Tamaño de Hoja -->
-                    <label for="size">Selecciona:</label>
-                    <select>
-                        <option value="Carta">Carta</option>
-                        <option value="Oficio">Oficio</option>
-                    </select>                                     
-                </li>
-                <li>
-                    <!-- Color / BN -->  
-                    <label for="color">Selecciona:</label>
-                    <select name="servicio">
-                        <option value="Color">Color</option>
-                        <option value="B/N">B/N</option>
-                    </select>  
-                </li>
-                <?php endwhile;?>        
-                <!-- Orientación -->
-                <li>
-                    <label for="orientation">Selecciona:</label>
-                    <select>
-                        <option value="Portrait">Portrait</option>
-                        <option value="Landscape">Landscape</option>
-                    </select>                    
-                </li>
-                <!-- Paginas a imprimir de X a Y -->
-                <li>
-                <label for=from_x>De: </label>
-                <input name="from_x" type="number">
-                <label for=to_y>Hasta: </label>
-                <input name="to_y" type="number">
-                </li>
-                <input type="submit" value="Enviar al proveedor">
-            </ul>
-        </form>
+        <?php if(isset($_SESSION['register']) && $_SESSION['register']  == 'new_register'): ?>        
+            <form action="<?=base_url?>servicio/getServicesDefault" method="post">
+                <!--Paso 1-->
+                <!--Seleccionar Proveedor-->
+                <ul>
+                     <li>
+                        <!--Carga y seleccion de proveedores-->
+                        <label for="proveedor_id">Selecciona Proveedor:</label>
+                        <select name="proveedor_id">
+                            <option value="" selected disabled>Selecciona un proveedor...</option>
+                            <?php while($sup = $suppliers->fetch_object()): ?>
+                                <option type="hidden" value="<?= $sup->id; ?>">
+                                    <?=$sup->nombre; ?>
+                                </option>
+                            <?php endwhile; ?>
+                        </select> 
+                        <input type="submit" value="Establecer Proveedor">
+                    </li>
+                </ul>
+            </form>
+        <?php else: ?>
+            <?php if(isset($_SESSION['supplier_check'])): ?>
+                <form action="<?=base_url?>archivo/upload_file" method="post" enctype="multipart/form-data">
+                    <ul>
+                        <!--Paso 2-->
+                        <!--Seleccionar Servicios-->
+                        <li>                    
+                            <!-- Subir Archivo --> 
+                            <input type="file" name="my_file[]" multiple>
+                        </li>
+                        <li>
+                            <!--Muestra tamaño de Hoja -->
+                        <label for="size_sheet">Tamaño Hoja:</label>
+                        <select name="serv_fir">
+                            <option value="" selected disabled>Seleccionar...</option>
+                            <?php  while($sizePaper = $sizePaperServices->fetch_object()): ?>
+                                <option value="<?=$sizePaper->id?>">
+                                    <?=$sizePaper->servicio_def; ?>
+                                </option>                                     
+                            <?php endwhile;?>        
+                                
+                        </select>
+                        </li>
+                        <li>
+                            <!--Muestra Tipo de Impresion -->
+                        <label for="print">Impresión:</label>
+                        <select name="print">
+                            <option value="" selected disabled>Seleccionar...</option>
+                            <?php  while($printServ = $printServices->fetch_object()): ?>
+                                <option value="<?=$printServ->id?>">
+                                    <?=$printServ->servicio_def; ?>
+                                </option>                                     
+                            <?php endwhile;?>
+                        </select>
+                        </li>
+                        <!-- Orientación -->
+                        <li>
+                            <label for="orientation">Orientación:</label>
+                            <select name="orientacion">
+                                <option value="Portrait">Portrait</option>
+                                <option value="Landscape">Landscape</option>
+                            </select>                    
+                        </li>
+                        <!-- Paginas a imprimir de X a Y -->
+                        <li>
+                        <label for=from_x>De: </label>
+                        <input name="from_x" type="number">
+                        <label for=to_y>Hasta: </label>
+                        <input name="to_y" type="number">
+                        </li>
+                        <input type="submit" value="Enviar al proveedor">
+                    </ul>
+                </form>
+            <?php else: ?>
+                <strong>No hay proveedor seleccionado</strong>
+            <?php endif; ?>
+        <?php endif;?>
 <!--                            Get META DATA from the file PDF php get metadata pdf --> 
 <!--https://stackoverflow.com/questions/1175347/how-can-i-select-and-upload-multiple-files-with-html-and-php-using-http-post-->
 <!--http://lampspw.wallonie.be/dgo4/tinymvc/myfiles/plugins/multifile-2.2.1/docs.html-->

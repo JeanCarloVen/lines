@@ -1,16 +1,42 @@
 <?php 
  
-include_once 'models/servicio.php';
+require_once 'models/servicio.php';
  
 class ServicioController{
     public function index(){
-        //Consulta a la base de datos, para ver los servicios del proveedor
+        //Consulta a la base de datos, para ver los servicios del proveedor 
+        //Default
         $servicio = new servicio();
         $proveedor_id = 1;
         $servicio->setProveedor_id($proveedor_id);
         $servicios = $servicio->getAllServices();
         require_once 'views/proveedor/alta_servicio.php';
     }
+    
+    public function getServicesDefault(){
+        if(isset($_POST)){
+            $proveedor_id = $_POST['proveedor_id']; //Debo obtener un INT del proveedor
+            //Consulta de servicios de acuerdo al proveedor seleccionado            
+            $allServices = new servicio();
+            $allServices->setProveedor_id($proveedor_id);
+            $sizePaperServices = $allServices->getSizePaperServices();
+            
+            if($sizePaperServices->num_rows > 0){
+                $printServices = $allServices->getPrintServices();
+                if($printServices->num_rows != 0){
+                    $_SESSION['supplier_check'] = true;
+                }else{
+                    $_SESSION['query'] = 'failed'; // No encontró PRINT (Servicios de Impresion)
+                }
+                $_SESSION['supplier_check'] = false;
+                $_SESSION['register'] = 'old_register';
+            }else{
+                $_SESSION['query'] = 'failed'; //No encontró SIZE_PAPER
+            }   
+        }
+        require_once 'views/archivo/subir.php';
+    }
+
     
     public function addService(){
         //Cuando recibe el servicio debe guardarlo en una variable nueva    
@@ -53,7 +79,8 @@ class ServicioController{
             }else{
                 $_SESSION['servicio'] = "failed";
             }  
-        }header('Location:'.base_url.'servicio/index'); 
+        }
+        header('Location:'.base_url.'servicio/index'); 
 
         
     }

@@ -113,10 +113,6 @@ class proveedor{
         return $query;
     }
     
-    function setLocalSupplier(){
-        
-    }
-
 
        
 }

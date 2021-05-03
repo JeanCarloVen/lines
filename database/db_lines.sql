@@ -156,6 +156,32 @@ CREATE TABLE producto /*Listo*/
 )ENGINE = InnoDB;
 
 
+CREATE TABLE servicio_default 
+(
+    id int AUTO_INCREMENT NOT NULL,
+    servicio_def varchar(60) NOT NULL,
+    categoria varchar(30) NOT NULL,
+    CONSTRAINT pk_servicio_default PRIMARY KEY (id)
+)ENGINE = InnoDB;
+
+
+CREATE TABLE servicioDef_proveedor /*Listo*/
+(
+    id int AUTO_INCREMENT NOT NULL,
+    fecha dateTime NOT NULL,
+    servicio_default_id int NOT NULL,
+    proveedor_id int NOT NULL,
+    status char(3) NOT NULL,
+    SKU varchar(5) NOT NULL,
+    descripcion varchar(60) NOT NULL,
+    precio_unitario decimal(12,2) NOT NULL,
+    comision_menudeo decimal(12,2) NOT NULL,
+    CONSTRAINT pk_servDef_pro PRIMARY KEY (id, fecha),
+    CONSTRAINT fk_serDefPro_servicioDef FOREIGN KEY (servicio_default_id) REFERENCES servicio_default(id),
+    CONSTRAINT fk_serDefPro_proveedor FOREIGN KEY (proveedor_id) REFERENCES proveedor(id)
+)ENGINE = InnoDB;
+
+
 /*Modificaciones a las tablas*/
 
 /*Agregar Servicio_id a Archvos*/
@@ -163,6 +189,8 @@ CREATE TABLE producto /*Listo*/
 ALTER TABLE _ ADD CONSTRAINT _ FOREIGN KEY() REFERENCES X();
 
 ALTER TABLE archivo ADD CONSTRAINT fk_archivo_servicio FOREIGN KEY(servicio_id) REFERENCES servicio(id);
+
+ALTER TABLE archivo ADD CONSTRAINT fk_archivo_servicioDef_proveedor FOREIGN KEY (servicioDef_proveedor_id) REFERENCES servicioDef_proveedor(id);  
 
 SELECT * FROM archivo INNER JOIN servicio ON archivo.servicio_id = servicio.id WHERE id='1' 
     
@@ -210,3 +238,45 @@ BEGIN
 	WHERE  Factura = Fct;
 END;
 
+INSERT INTO `servicio_default`(`id`, `servicio_def`, `categoria`) VALUES (NULL,'A01','SIZE_PAPER');
+INSERT INTO `servicio_default`(`id`, `servicio_def`, `categoria`) VALUES (NULL,'A02','SIZE_PAPER');
+INSERT INTO `servicio_default`(`id`, `servicio_def`, `categoria`) VALUES (NULL,'A03','SIZE_PAPER');
+INSERT INTO `servicio_default`(`id`, `servicio_def`, `categoria`) VALUES (NULL,'A04','SIZE_PAPER');
+INSERT INTO `servicio_default`(`id`, `servicio_def`, `categoria`) VALUES (NULL,'A05','SIZE_PAPER');
+INSERT INTO `servicio_default`(`id`, `servicio_def`, `categoria`) VALUES (NULL,'A06','SIZE_PAPER');
+INSERT INTO `servicio_default`(`id`, `servicio_def`, `categoria`) VALUES (NULL,'A07','SIZE_PAPER');
+INSERT INTO `servicio_default`(`id`, `servicio_def`, `categoria`) VALUES (NULL,'A08','SIZE_PAPER');
+INSERT INTO `servicio_default`(`id`, `servicio_def`, `categoria`) VALUES (NULL,'A09','SIZE_PAPER');
+INSERT INTO `servicio_default`(`id`, `servicio_def`, `categoria`) VALUES (NULL,'A010','SIZE_PAPER')
+
+
+INSERT INTO `serviciodef_proveedor`(`id`, `fecha`, `servicio_default_id`, `proveedor_id`, `status`, `precio_unitario`, `comision_menudeo`) 
+VALUES (NULL, NOW(), 2, 1,'ACT',0.30, 0.06);
+
+INSERT INTO `serviciodef_proveedor`(`id`, `fecha`, `servicio_default_id`, `proveedor_id`, `status`, `precio_unitario`, `comision_menudeo`) 
+VALUES (NULL, NOW(), 3, 1,'ACT',0.35, 0.07);
+
+INSERT INTO `serviciodef_proveedor`(`id`, `fecha`, `servicio_default_id`, `proveedor_id`, `status`, `precio_unitario`, `comision_menudeo`) 
+VALUES (NULL, NOW(), 4, 1,'ACT',0.40, 0.08);
+
+INSERT INTO `serviciodef_proveedor`(`id`, `fecha`, `servicio_default_id`, `proveedor_id`, `status`, `precio_unitario`, `comision_menudeo`) 
+VALUES (NULL, NOW(), 1, 2,'ACT',0.35, 0.07);
+
+INSERT INTO `serviciodef_proveedor`(`id`, `fecha`, `servicio_default_id`, `proveedor_id`, `status`, `precio_unitario`, `comision_menudeo`) 
+VALUES (NULL, NOW(), 2, 2,'ACT',0.40, 0.08);
+ 
+/*INNER JOIN*/
+SELECT *  /*Lo que se quiere mostrar en pantalla*/
+FROM table_A /*tabla origen*/
+INNER JOIN table_B /*tabla a comparar*/
+ON table_A.varA = table_B.varA /*variable en comun en ambas tablas*/
+WHERE cond="x"; /*Condición que se cumpla en alguna de las tablas*/
+
+
+/*Servicio Default por proveedor*/
+SELECT servicio_default.id, servicio_default.servicio_def
+FROM servicio_default
+INNER JOIN serviciodef_proveedor
+ON servicio_default.id = serviciodef_proveedor.servicio_default_id
+WHERE proveedor_id=1 AND categoria='PRINT' AND status='ACT'
+ORDER BY servicio_default.id;
