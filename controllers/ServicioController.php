@@ -16,24 +16,27 @@ class ServicioController{
     public function getServicesDefault(){
         if(isset($_POST)){
             $proveedor_id = $_POST['proveedor_id']; //Debo obtener un INT del proveedor
+            $_SESSION['supplier_check'] = false;
+            $_SESSION['supplier'] = $proveedor_id;
+            
             //Consulta de servicios de acuerdo al proveedor seleccionado            
             $allServices = new servicio();
-            $allServices->setProveedor_id($proveedor_id);
-            $sizePaperServices = $allServices->getSizePaperServices();
             
-            if($sizePaperServices->num_rows > 0){
-                $printServices = $allServices->getPrintServices();
-                if($printServices->num_rows != 0){
-                    $_SESSION['supplier_check'] = true;
-                }else{
-                    $_SESSION['query'] = 'failed'; // No encontró PRINT (Servicios de Impresion)
-                }
-                $_SESSION['supplier_check'] = false;
+            //Establece el proveedor del servicio
+            $allServices->setProveedor_id($proveedor_id);
+            
+            //Obtiene los tamaños de papel e impresión del proveedor particular
+            $sizePaperServices = $allServices->getSizePaperServices();
+            $printServices = $allServices->getPrintServices();
+            
+            //En caso de tener registros de tamaño de papel, devuelve esos tamaños
+            if($sizePaperServices->num_rows != 0  && $printServices->num_rows != 0){
+                $_SESSION['supplier_check'] = true;
                 $_SESSION['register'] = 'old_register';
+                }
             }else{
-                $_SESSION['query'] = 'failed'; //No encontró SIZE_PAPER
+                $_SESSION['services_default'] = 'failed'; //No encontró SIZE_PAPER o de impresión
             }   
-        }
         require_once 'views/archivo/subir.php';
     }
 

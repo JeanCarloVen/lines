@@ -280,3 +280,13 @@ INNER JOIN serviciodef_proveedor
 ON servicio_default.id = serviciodef_proveedor.servicio_default_id
 WHERE proveedor_id=1 AND categoria='PRINT' AND status='ACT'
 ORDER BY servicio_default.id;
+
+
+SELECT sp.id, sp.fecha, sp.proveedor_id, sp.precio_unitario
+FROM serviciodef_proveedor AS sp
+WHERE proveedor_id = 2 AND sp.servicio_default_id = 3;
+
+
+
+INSERT INTO archivo (id, cliente_id, pedido_id, servicio_id, nombre, tipo, tamano, color, orientacion, from_x, to_y,  fecha) 
+VALUES (NULL, 1, 4250, 2, 'Segunda+Forma+Normal+2NF.pdf', 'application/pdf', 2, 12, 'LAN', 1212, 2500, NOW();

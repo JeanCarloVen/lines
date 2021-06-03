@@ -22,32 +22,38 @@
                 </ul>
             </form>
         <?php else: ?>
-            <?php if(isset($_SESSION['supplier_check'])): ?>
+            <?php if(isset($_SESSION['register']) 
+                    && $_SESSION['register'] == 'old_register'
+                    && isset($_SESSION['supplier_check']) 
+                    && !isset($_SESSION['file'])): ?>
                 <form action="<?=base_url?>archivo/upload_file" method="post" enctype="multipart/form-data">
                     <ul>
-                        <!--Paso 2-->
-                        <!--Seleccionar Servicios-->
                         <li>                    
                             <!-- Subir Archivo --> 
                             <input type="file" name="my_file[]" multiple>
                         </li>
-                        <li>
+                        <!--Paso 2-->
+                        <!--Seleccionar Servicio DEFAULT-->
+                        <h4>Servicios Default</h4>
                             <!--Muestra tamaño de Hoja -->
+                        <?php if(isset($_SESSION['services_default']) && $_SESSION['services_default'] == 'failed'):?>
+                            <strong>No se tienen Servicios</strong>
+                        <?php else:?>
+                        <li>
                         <label for="size_sheet">Tamaño Hoja:</label>
-                        <select name="serv_fir">
+                        <select name="size_paper">
                             <option value="" selected disabled>Seleccionar...</option>
                             <?php  while($sizePaper = $sizePaperServices->fetch_object()): ?>
                                 <option value="<?=$sizePaper->id?>">
                                     <?=$sizePaper->servicio_def; ?>
                                 </option>                                     
                             <?php endwhile;?>        
-                                
                         </select>
                         </li>
                         <li>
                             <!--Muestra Tipo de Impresion -->
-                        <label for="print">Impresión:</label>
-                        <select name="print">
+                        <label for="printServ">Impresión:</label>
+                        <select name="print_serv">
                             <option value="" selected disabled>Seleccionar...</option>
                             <?php  while($printServ = $printServices->fetch_object()): ?>
                                 <option value="<?=$printServ->id?>">
@@ -56,12 +62,14 @@
                             <?php endwhile;?>
                         </select>
                         </li>
+                        <?php endif;?>
+                        
                         <!-- Orientación -->
                         <li>
                             <label for="orientation">Orientación:</label>
-                            <select name="orientacion">
-                                <option value="Portrait">Portrait</option>
-                                <option value="Landscape">Landscape</option>
+                            <select name="orientation">
+                                <option value="POR">Portrait</option>
+                                <option value="LAN">Landscape</option>
                             </select>                    
                         </li>
                         <!-- Paginas a imprimir de X a Y -->
@@ -71,14 +79,122 @@
                         <label for=to_y>Hasta: </label>
                         <input name="to_y" type="number">
                         </li>
+                        <!--Debo hacer que carge sólo los servicios adicionales que tenga el proveedor-->
+                        <!--El primer paso debería ser, calcular el numero total de servicios adicionales que tiene-->
+                        <!--Debe generar un li por cada servicio-->
+                        <!--Dentro de cada li, debería de generar un label, y un select-->
+                        <!--Dentro de cada select debe de incluirse la lista de servicios--> 
+                        <h4>Servicios Adicionales</h4>
+                        <li>
+                            <label for=servicio_01>Servicio 01</label>
+                            <select name="servicio_id">
+                                <option value="" selected disabled>Seleccionar...</option>
+                                <option value="NULL" selected >default</option>
+                            </select>   
+                        </li>
+                        <li>
+                            <label for=servicio_02>Servicio 02</label>
+                            <select name="servicio_02">
+                                <option value="" selected disabled>Seleccionar...</option>
+                            </select>    
+                        </li>
+                        <li>
+                            <label for=servicio_03>Servicio 03</label>
+                            <select name="servicio_03">
+                                <option value="" selected disabled>Seleccionar...</option>
+                            </select>  
+                        </li>
                         <input type="submit" value="Enviar al proveedor">
                     </ul>
                 </form>
             <?php else: ?>
-                <strong>No hay proveedor seleccionado</strong>
+                <!--Aquí se puede colocar un boton para agregar más archivos-->
+                <form action="<?=base_url?>archivo/upload_file" method="post" enctype="multipart/form-data">
+                    <ul>
+                        <li>                    
+                            <!-- Subir Archivo --> 
+                            <input type="file" name="my_file[]" multiple>
+                        </li>
+                        <!--Paso 2-->
+                        <!--Seleccionar Servicio DEFAULT-->
+                        <h4>Servicios Default</h4>
+                         <!--Muestra tamaño de Hoja -->
+                        <?php if(isset($_SESSION['services_default']) && $_SESSION['services_default'] == null && $_SESSION['services_default'] == 'failed'):?>
+                            <strong>No se tienen Servicios</strong>
+                        <?php else:?>
+                        <li>
+                        <?php var_dump($printServ)?>
+                        <label for="size_sheet">Tamaño Hoja:</label>
+                        <select name="size_paper">
+                            <option value="" selected disabled>Seleccionar...</option>
+                            <?php  while($sizePaper = $sizePaperServices->fetch_object()): ?>
+                                <option value="<?=$sizePaper->id?>">
+                                    <?=$sizePaper->servicio_def; ?>
+                                </option>                                     
+                            <?php endwhile;?>        
+                        </select>
+                        </li>
+                        <li>
+                            <!--Muestra Tipo de Impresion -->
+                        <label for="printServ">Impresión:</label>
+                        <select name="print_serv">
+                            <option value="" selected disabled>Seleccionar...</option>
+                            <?php  while($printServ = $printServices->fetch_object()): ?>
+                                <option value="<?=$printServ->id?>">
+                                    <?=$printServ->servicio_def; ?>
+                                </option>                                     
+                            <?php endwhile;?>
+                        </select>
+                        </li>
+                        <?php endif;?>
+                        
+                        <!-- Orientación -->
+                        <li>
+                            <label for="orientation">Orientación:</label>
+                            <select name="orientation">
+                                <option value="POR">Portrait</option>
+                                <option value="LAN">Landscape</option>
+                            </select>                    
+                        </li>
+                        <!-- Paginas a imprimir de X a Y -->
+                        <li>
+                        <label for=from_x>De: </label>
+                        <input name="from_x" type="number">
+                        <label for=to_y>Hasta: </label>
+                        <input name="to_y" type="number">
+                        </li>
+                        <!--Debo hacer que carge sólo los servicios adicionales que tenga el proveedor-->
+                        <!--El primer paso debería ser, calcular el numero total de servicios adicionales que tiene-->
+                        <!--Debe generar un li por cada servicio-->
+                        <!--Dentro de cada li, debería de generar un label, y un select-->
+                        <!--Dentro de cada select debe de incluirse la lista de servicios--> 
+                        <h4>Servicios Adicionales</h4>
+                        <li>
+                            <label for=servicio_01>Servicio 01</label>
+                            <select name="servicio_id">
+                                <option value="" selected disabled>Seleccionar...</option>
+                                <option value="NULL" selected >default</option>
+                            </select>   
+                        </li>
+                        <li>
+                            <label for=servicio_02>Servicio 02</label>
+                            <select name="servicio_02">
+                                <option value="" selected disabled>Seleccionar...</option>
+                            </select>    
+                        </li>
+                        <li>
+                            <label for=servicio_03>Servicio 03</label>
+                            <select name="servicio_03">
+                                <option value="" selected disabled>Seleccionar...</option>
+                            </select>  
+                        </li>
+                        <input type="submit" value="Enviar al proveedor">
+                    </ul>
+                </form>
             <?php endif; ?>
+                
         <?php endif;?>
-<!--                            Get META DATA from the file PDF php get metadata pdf --> 
+<!--Get META DATA from the file PDF php get metadata pdf --> 
 <!--https://stackoverflow.com/questions/1175347/how-can-i-select-and-upload-multiple-files-with-html-and-php-using-http-post-->
 <!--http://lampspw.wallonie.be/dgo4/tinymvc/myfiles/plugins/multifile-2.2.1/docs.html-->
 <!--https://github.com/blueimp/jQuery-File-Upload/blob/master/README.md-->
@@ -99,77 +215,4 @@
             </div>
         </div>
     </section>
-    <section class="bloque_secundario">
-        <label for=pedido>Pedido: XYZ123 </label>
-        <div class="tabla">
-            <table id="tabla_principal">
-                <tr>
-                    <th>No</th>
-                    <th>Archivo</th>
-                    <th>Tipo</th>
-                    <th>Tamaño Hoja</th>
-                    <th>Color - B/N</th>
-                    <th>Orientación</th>
-                    <th>De X Hasta Y</th>
-                    <th>Fecha y Hora</th>
-                    <th>P.U.</th>
-                    <th>Importe</th>
-                    <th>Eliminar</th>
-                </tr>
-                <!--While para mostrar en la tabla -->
-                <?php while($arc = $archivos->fetch_object()): ?>
-                <tr>
-                    <td><?= $arc->id; ?> </td>
-                    <td><?= $arc->nombre; ?> </td>
-                    <td><?= $arc->tipo; ?> </td>
-                    <td><?= $arc->tamano; ?> </td>
-                    <td><?= $arc->color; ?> </td>
-                    <td><?= $arc->orientacion; ?> </td>
-                    <td><?= $arc->from_x;?> - <?= $arc->to_y;?> </td>
-                    <td><?= $arc->fecha; ?></td>
-                    <td><?= $arc->precio_unitario; ?></td>
-                    <td><?= $arc->importe ?></td>                                   
-                    <td>
-                        <label class="container"> 
-                        <input type="checkbox" checked="checked">
-                        <span class="checkmark"></span>
-                        </label>
-                    </td>
-                    <?php endwhile; ?>
-                </tr>
-            </table>
-        </div>
-        <div class="delete_file">
-            <div class="header button">
-                <a class="button-pink" href="#">Eliminar</a>
-            </div>
-        </div>
-        <div class="footer">
-            <div class="dropdown">
-                <h4> 
-                    <span> Consulta Lista de Precios </span>
-                </h4>
-                <div class="dropdown-content">
-                    <table>
-                        <tr>
-                            <th>Descripción</th>
-                            <th>Precio Unitario</th>
-                        </tr>
-                        <tr>
-                            <td>Blanco/Negro</td>
-                            <td>$1.00</td>
-                        </tr>
-                        <tr>
-                            <td>Color</td>
-                            <td>$0.50</td>
-                        </tr>
-                        <tr>
-                            <td>Hoja Oficio</td>
-                            <td>$2.00</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </section>
-</div>
+<!--Continua en el data.php-->

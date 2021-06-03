@@ -53,15 +53,19 @@ class pedido{
     }
     
     function makeOrder(){
-        $result = false;
+        $resultOrder = false;
         $sql = "INSERT INTO pedido (id, folio, fecha, proveedor_id) VALUES (NULL, 'GAT123', NOW(), {$this->getProveedor_id()});";
         $query = $this->db->query($sql) or die ('Error en el query database: ' .mysqli_error($this->db));
         //Devuelve el último registro
         if($query){
             $last_id = $this->db->insert_id;
-            $result = $last_id;
+            $sql = "SELECT id, folio, fecha FROM pedido WHERE id={$last_id};";
+            $querySelect = $this->db->query($sql) or die('Error en el query database: ' .mysqli_error($this->db));
+            $resultOrder = $querySelect->fetch_object();
+            //$result = $last_id;
+            //Es conveniente que regrese también una consulta con los datos del pedido
         }
-        return $result;
+        return $resultOrder;
     }
     
 

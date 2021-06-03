@@ -78,15 +78,15 @@ class Usuario{
     //Parece que será necesario hacer una busqueda en ambas tablas Cliente y Usuario para determinar si es Cliente
     //Usaremos el id del 
     public function IsClient(){
-    $result = false;
-    $id = $this->getId();
-    $sql = "SELECT * FROM cliente WHERE usuario_id = '$id'";
-    $check = $this->db->query($sql) or die ('Error en el query database' .mysqli_error($this->db));
-    
-    if($check && $check->num_rows == 1){
-        $result = $check->fetch_object(); //Devuelve el objeto
-    }
-    return $result;
+        $result = false;
+        $id = $this->getId();
+        $sql = "SELECT * FROM cliente WHERE usuario_id = '$id'";
+        $check = $this->db->query($sql) or die ('Error en el query database' .mysqli_error($this->db));
+
+        if($check && $check->num_rows == 1){
+            $result = $check->fetch_object(); //Devuelve el objeto
+        }
+        return $result;
     }
     
 }
